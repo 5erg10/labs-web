@@ -11,8 +11,9 @@
     </div>
     <div class="bottom-menu">
       <ul class="areas-list">
+        <li v-on:click="navigateToDashboard()" class="create-new">Crear</li>
         <li v-for="(area, index) in areas" :key="index" v-bind:class="{ areaActive: area.name === $parent.ToolActive }"><router-link :to="area.link ">{{ capitalizeString(area.name) }}</router-link></li>
-      </ul>  
+      </ul>
       <div class="searchbar-box">
         <i class="material-icons searchBarIcon">search</i>
         <i v-if="inputValue !=''" v-on:click="resetSearch()" class="material-icons searchBarIconClose">close</i>
@@ -112,6 +113,9 @@
         this.inputTypeHead('');
         this.$parent.noResults = false;
         this.$router.push({ path: this.$route.path });
+      },
+      navigateToDashboard: function() {
+        window.open('https://5erg10.github.io/labs-web-admin/#/', '_blank');
       }
     },
     created: function() {
@@ -155,7 +159,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    padding: 0px 50px;
+    padding: 0px 50px 0px 20px;
     box-sizing: border-box;
      -webkit-box-shadow: 0px 1px 2px 1px rgba(199,197,199,0.5);
     -moz-box-shadow: 0px 1px 2px 1px rgba(199,197,199,0.5);
@@ -165,6 +169,11 @@
     list-style-type: none;
     padding: 0 0 0 10px !important;
     text-align: left;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .searchbar-box{
     width: 300px;
@@ -295,6 +304,17 @@
     margin-bottom: 150px;
   }
 
+   .create-new {
+      background-color: #4ba5e0;
+      color: white;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 20px;
+      margin: 0px;
+    }
+
   @media (max-width: 600px) {
     .bottom-menu {
       flex-direction: column-reverse;
@@ -306,5 +326,6 @@
     .searchbar-box {
       width: 100%;
     }
+
   }
 </style>

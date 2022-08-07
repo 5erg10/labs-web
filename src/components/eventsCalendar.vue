@@ -15,9 +15,8 @@
               </ul>
               <ul class="calendarDates">
                   <li class="blackDay" v-for="( blank, index ) in firstDayOfMonth" :key="'blanck'+index"></li>
-                  <li v-for="( date, index ) in daysInMonth" :key="date+index" class="calendarDaysText" :class="{'calendarCurrentDay': date == initialDate &amp;&amp; month == initialMonth && year == initialYear}">
+                  <li v-for="( date, index ) in daysInMonth" :key="date+index" class="calendarDaysText" :class="{'calendarCurrentDay': date == initialDate && month == initialMonth && year == initialYear, 'greatDay' : checkEventsDays(date,month,year)}">
                       <span>{{ date }}</span>
-                      <div class="eventDayIndicator" v-if="checkEventsDays(date,month,year)"></div>
                   </li>
               </ul>
           </div>
@@ -49,15 +48,29 @@ export default {
 			dateContext: moment(),
 			days: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
 			listOfEvents: [
-				{date: moment("7/27/2018", "MM-DD-YYYY"), title:'MeetUp: panorama AR'},
-				{date: moment("7/31/2018", "MM-DD-YYYY"), title:'Codemotion: ponencia UX para chatbots'},
-				{date: moment("8/12/2018", "MM-DD-YYYY"), title:'Frontisamba'},
-				{date: moment("8/25/2018", "MM-DD-YYYY"), title:'Samba to fronty'},
-                {date: moment("9/7/2018", "MM-DD-YYYY"), title:'Code Wars'},
-                {date: moment("9/11/2018", "MM-DD-YYYY"), title:'MeetUp: Panorama AR'},
-				{date: moment("10/13/2018", "MM-DD-YYYY"), title:'U-tad academy'},
-				{date: moment("11/20/2018", "MM-DD-YYYY"), title:'Chatbot conf'},
-				{date: moment("12/20/2018", "MM-DD-YYYY"), title:'christmas party'}
+        {date: moment(`1/27/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'MeetUp: panorama AR'},
+				{date: moment(`1/30/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'Codemotion: ponencia UX para chatbots'},
+        {date: moment(`2/10/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'MeetUp: panorama AR'},
+				{date: moment(`2/20/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'Codemotion: ponencia UX para chatbots'},
+        {date: moment(`3/15/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'MeetUp: panorama AR'},
+				{date: moment(`3/18/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'Codemotion: ponencia UX para chatbots'},
+        {date: moment(`4/10/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'MeetUp: panorama AR'},
+				{date: moment(`4/24/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'Codemotion: ponencia UX para chatbots'},
+        {date: moment(`5/19/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'MeetUp: panorama AR'},
+				{date: moment(`5/28/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'Codemotion: ponencia UX para chatbots'},
+        {date: moment(`6/03/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'MeetUp: panorama AR'},
+				{date: moment(`6/10/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'Codemotion: ponencia UX para chatbots'},
+				{date: moment(`7/27/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'MeetUp: panorama AR'},
+				{date: moment(`7/31/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'Codemotion: ponencia UX para chatbots'},
+				{date: moment(`8/12/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'Frontisamba'},
+				{date: moment(`8/25/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'Samba to fronty'},
+        {date: moment(`9/7/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'Code Wars'},
+        {date: moment(`9/11/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'MeetUp: Panorama AR'},
+				{date: moment(`10/13/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'U-tad academy'},
+        {date: moment(`10/21/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'U-tad academy'},
+        {date: moment(`10/03/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'U-tad academy'},
+				{date: moment(`11/20/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'Chatbot conf'},
+				{date: moment(`12/20/${new Date().getFullYear()}`, "MM-DD-YYYY"), title:'christmas party'}
 			]
     }
   },
@@ -231,10 +244,9 @@ export default {
     box-sizing: border-box;
   }
   .eventDayIndicator{
-    width: 10px;
-    height: 10px;
-    background-color: #004481;
-    border-radius: 30px;
+    width: 100%;
+    height: 20px;
+    background-color: #386286;
     margin-top: 5px;
   }
   .calendarDates{
@@ -261,6 +273,10 @@ export default {
     font-size: 13px;
     font-weight: bolder;
     transition: all 0.1s ease-in-out;
+  }
+  .greatDay {
+    background-color: #386286;
+    color: white;
   }
   .blackDay{
     display: inline-block;
