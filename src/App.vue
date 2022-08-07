@@ -73,10 +73,9 @@ export default {
 					element.area = 'insigths';
 					element.active = true;
 					element.id = '_' + Math.random().toString(36).substr(2, 9);
-					datas.push(element);
+					if(element.categories.includes('hci')) datas.push(element);
 				});
 			});
-			console.log(datas);
 			return datas;
 		}
 	}    
