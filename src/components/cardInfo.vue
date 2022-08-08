@@ -10,7 +10,6 @@
 
 <script>
 import $ from "jquery";
-import Router from 'vue-router'
 import Tools from './toolinfo.vue'
 import Prototipes from './protoInfo.vue'
 
@@ -39,7 +38,6 @@ export default {
     '$parent.cardsData': function(val) {
         this.fileData = this.$parent.cardsData.find(x => x.id === this.$route.params.fileId); 
         if( this.fileData != undefined ) this.dynamicComponent = this.fileData.area.toLowerCase();
-        console.log(this.fileData);
     }
   },
   methods: {

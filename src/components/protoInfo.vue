@@ -4,35 +4,49 @@
             <div class="modal-title-proto">{{ $parent.fileData.title.toLowerCase() }}</div>
             <div class="modal-scope-proto" v-bind:class="$parent.fileData.area.toLowerCase() + 'text'">{{ $parent.fileData.scope }}</div>
         </div>
-        <div v-if="$parent.fileData.graphics[0].url != undefined" class="modal-video-proto">
-            <iframe width="560" height="315" :src="'https://www.youtube.com/embed/' + $parent.fileData.graphics[0].url" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div class="modal-media-proto">
+          <div v-for="media in $parent.fileData.graphics">
+            <iframe class="modal-media-file" v-if="media.type === 'video'" :src="media.url" frameborder="0" autoplay allowfullscreen></iframe>
+            <img v-if="media.type === 'image'" :src="media.url" class="modal-media-file"/>
+          </div>
         </div>
-        <ul class="modal-techs-proto">
-            <li v-for="( techs, index ) in $parent.fileData.technologies" :key="techs.title + index"><a v-bind:class="$parent.fileData.area.toLowerCase() + 'text'" :href="techs.url" target="_blanck">{{ techs.title }}</a></li>
-        </ul>
-        <div class="modal-content-proto">
-            <div class="modal-description-proto">{{ $parent.fileData.description }}</div>
-            <div v-if="$parent.fileData.steps" class="modal-firstSteps-file-box">
-                <div class="modal-firstSteps-title">
-                    <div class="material-icons link-step-icon"><i>link</i></div>
-                    <div class="firstSteps-title-text">First Steps</div>
-                </div>
-                <div class="modal-firstSteps-steps" v-for=" ( steps, index ) in $parent.fileData.steps" :key="index">
-                    <div class="modal-firstSteps-step-index">{{ index + 1 }}</div>
-                    <div class="modal-firstSteps-step-link">{{ steps.content }}</div>
-                </div>
+        <div class="modal-info-proto">
+          <div class="modal-description-proto">{{ $parent.fileData.description }}</div>
+          <div class="modal-links-proto">
+            <div class="modal-links-title-proto">
+              <div class="material-icons link-proto-icon"><i>link</i></div>
+              Links
+            </div>
+            <ul class="modal-techs-proto">
+                <li v-for="( techs, index ) in $parent.fileData.technologies" :key="techs.title + index"><a v-bind:class="$parent.fileData.area.toLowerCase() + 'text'" :href="techs.url" target="_blanck">{{ techs.title }}</a></li>
+            </ul>
+          </div>
+        </div>
+        <div v-if="$parent.fileData.steps" class="modal-firstSteps-file-box">
+            <div class="modal-firstSteps-title">
+                <div class="material-icons link-step-icon"><i>link</i></div>
+                <div class="firstSteps-title-text">First Steps</div>
+            </div>
+            <div class="modal-firstSteps-steps" v-for=" ( steps, index ) in $parent.fileData.steps" :key="index">
+                <div class="modal-firstSteps-step-index">{{ index + 1 }}</div>
+                <div class="modal-firstSteps-step-link">{{ steps.content }}</div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import $ from "jquery";
-import Router from 'vue-router'
 
 export default {
   name: 'protoInfo',
+  data () {
+    return {
+        mediaType: undefined
+    }
+  },
   created: function(){
+  },
+  methods: {
   }
 }
 </script>
@@ -40,12 +54,12 @@ export default {
 <style scoped>
   ul {
     list-style-type: none;
-    padding: 10px;
-    margin: 0;
+    padding: 10px 0px;
+    margin: 0px;
   }
   li {
     display: inline-block;
-    margin: 0 10px;
+    margin: 0px 20px 0px 0px;
   }
   a {
     text-decoration: none;
@@ -59,24 +73,25 @@ export default {
   .modal-title-proto-box{
     width: 100%;
     background-color: #f4f4f4;
-    display:inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
   .modal-title-proto{
     color: #000000;
     font-size: 36px;
     padding: 15px 20px;
-    float: left;
   }
   .modal-scope-proto{
     font-size: 14px;
     padding: 30px 20px;
-    float: right;
   }
-  .modal-content-proto{
+  .modal-info-proto{
     background-color: #f4f4f4;
-    float: left;
     margin-bottom: 100px;
     padding-bottom: 50px;
+    display: flex;
+    align-items: flex-start;
   }
   .modal-description-proto{
     font-size: 16px;
@@ -86,15 +101,38 @@ export default {
     float: left;
     box-sizing: border-box;
   }
-  .modal-video-proto{
+
+  .modal-links-proto {
+    margin-top: 30px;
+  }
+
+  .modal-links-title-proto {
     display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-bottom: solid 1px #4a4a4a;
+    color: #4a4a4a;
+  }
+  .link-proto-icon{
+    color: #4a4a4a;
+    margin-right: 10px;
+  }
+
+  .modal-media-proto{
+    display: flex;
+    align-items: flex-start;
     justify-content: center;
-    padding: 30px;
+  }
+
+  .modal-media-file {
+    margin: 0px 10px;
+    width: 300px;
+    height: 200px;
   }
   .modal-techs-proto{
       background-color: #f4f4f4;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       color: #121212;
   }
   .modal-firstSteps-file-box{

@@ -6,7 +6,7 @@
             <div class="modal-status-file-indicator" v-bind:class="$parent.fileData.status.toLowerCase()"></div>
         </div>
         <div class="modal-image-file-box">
-            <img :src="$parent.fileData.logo" class="modal-image-file"/>
+            <img v-for="image in $parent.fileData.graphics" :src="image.url" class="modal-image-file"/>
         </div>
         <div class="modal-content-file-box">
             <div class="modal-description-file-box">
@@ -29,7 +29,10 @@
             <div class="modal-links-file-box">
                 <div v-if="$parent.fileData.demo" class="modal-demo-button"><a :href="$parent.fileData.demo" target="_black" v-bind:class="$parent.fileData.area">View Demo</a></div>
                 <div class="modal-tags-tools">
-                    <div class="modal-tags-title">Tags</div>
+                    <div class="modal-tags-title">
+                      <div class="material-icons link-step-icon"><i>alternate_email</i></div>
+                      Tags
+                    </div>
                     <div class="modal-tags-list">
                         <div class="modal-tags-list-element" v-for="( tags, index ) in $parent.fileData.tag" :key="tags + index">{{ tags }}</div>
                     </div>
@@ -41,20 +44,18 @@
                     </div>
                     <div class="modal-links-list">
                         <a class="modal-links-elements" v-for="( links, index ) in $parent.fileData.links" :href="links.url" target="_blanck" :key="links + index">
-                            <div class="material-icons link-element-icon"><i>link</i></div>
-                            <div class="link-element-text">{{ links.title }}</div>
+                            {{ links.title }}
                         </a>
                     </div>
                 </div>
                 <div v-if="$parent.fileData.graphics" class="modal-links-tool">
                     <div class="modal-links-title">
-                        <div class="material-icons link-step-icon"><i>link</i></div>
+                        <div class="material-icons link-step-icon"><i>perm_media</i></div>
                         <div class="firstSteps-title-text">Graphic material</div>
                     </div>
                     <div class="modal-links-list">
                         <a class="modal-links-elements" v-for="( graphs, index ) in $parent.fileData.graphics" :href="graphs.url" target="_blanck" :key="graphs + index">
-                            <div class="material-icons link-element-icon"><i>link</i></div>
-                            <div class="link-element-text">{{ graphs.title }}</div>
+                            {{ graphs.title }}
                         </a>
                     </div>
                 </div>
@@ -64,8 +65,6 @@
 </template>
 
 <script>
-import $ from "jquery";
-import Router from 'vue-router'
 
 export default {
   name: 'cardInfo',
@@ -78,6 +77,9 @@ export default {
   beforeDestroy: function(){
   },
   methods: {
+    getImage(card) {
+      console.log(card);
+    }
   }
 }
 </script>
@@ -168,7 +170,7 @@ export default {
   }
   .link-step-icon{
     color: #d2d1ce;
-    margin-right: 20px;
+    margin-right: 10px;
 
   }
   .firstSteps-title-text{
@@ -219,8 +221,6 @@ export default {
     margin-top: 30px;
     cursor: pointer;
   }
-  .modal-tags-tools{
-  }
   .modal-tags-title{
     font-weight: bold;
     size: 16px;
@@ -253,12 +253,11 @@ export default {
   .modal-links-elements{
       color: #8f7ae5;
       border: solid 1px #8f7ae5;
-      padding: 5px;
+      padding: 5px 10px;
       cursor: pointer;
-      margin-top: 10px;
-      margin-right: 10px;
+      text-align: center;
   }
-  .link-element-icon, .link-element-text{
+  .link-element-icon {
       float: left;
       margin-right: 10px; 
   }

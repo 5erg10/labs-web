@@ -28,17 +28,11 @@ export default {
           else return false;
     },
     computeImage: function(card){
-      switch (card.area){
-        case 'tools':
-          return card.logo;
-          break;
-        case 'insigths':
-          return card.thumbnail;
-          break;
-        case 'prototipes':
-          return 'http://img.youtube.com/vi/' + card.graphics[0].url + '/2.jpg';
-          break;    
-      }
+      return {
+        tools: card.logo,
+        insigths: card.thumbnail,
+        prototipes: this.findValidImage(card)
+      }[card.area]
     },
     goto(card){
       switch (card.area){
@@ -49,6 +43,9 @@ export default {
           this.$router.push({ path: '/file/' + card.id })
           break;    
       }
+    },
+    findValidImage(card) {
+      return ((card.graphics || []).find(media => media.type === 'image') || {}).url;
     }
   }
 }
