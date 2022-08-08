@@ -14,11 +14,11 @@
         <li v-on:click="navigateToDashboard()" class="create-new">Crear</li>
         <li v-for="(area, index) in areas" :key="index" v-bind:class="{ areaActive: area.name === $parent.ToolActive }"><router-link :to="area.link ">{{ capitalizeString(area.name) }}</router-link></li>
       </ul>
-      <div class="searchbar-box">
-        <i class="material-icons searchBarIcon">search</i>
-        <i v-if="inputValue !=''" v-on:click="resetSearch()" class="material-icons searchBarIconClose">close</i>
-        <input type="text" class="SearchBar" v-model="inputValue" v-on:keyup="inputTypeHead($event.target.value)" placeholder=""/>
-        <div id="searchResultBox" class="search-result-box" v-if="itemsFounded.length > 0">
+      <div class="searchbar-box" id="searchBarBox">
+        <i v-if="inputValue ==''" class="material-icons searchBar-icon">search</i>
+        <i v-if="inputValue !=''" v-on:click="resetSearch()" class="material-icons searchBar-icon">close</i>
+        <input type="text" id="searchBarInput" class="SearchBar-input" v-model="inputValue" v-on:keyup="inputTypeHead($event.target.value)" placeholder=""/>
+        <div id="searchResultBox" class="search-result-box" v-if="itemsFounded.length > 0" v-bind:style="'position: absolute; top: ' + searchResutPosition.top + 50 + 'px; left: ' + searchResutPosition.left + 'px;'">
           <div v-for="(item, index) in itemsFounded" class="search-result-line" v-on:click="showSearchResult(item)" :key="item.title + index"> {{ item.title.substr(0,20) }} ... </div>
         </div>
       </div>
@@ -35,8 +35,9 @@
         itemsFounded: [],
         inputValue: "",
         menuIMage: 'static/img/logo-white.png',
-        areas: this.$parent.$parent.areas
-        }
+        areas: this.$parent.$parent.areas,
+        searchResutPosition: undefined
+      }
     },
     methods: {
       capitalizeString(name){
@@ -60,7 +61,9 @@
               this.getTechnologies(item).some( elements => {
                 let itemClear = elements.replace(/[^\w]/g, '');
                 if( itemClear.match(new RegExp('.{1,' + word.length + '}', 'g')).find( i => i.toLowerCase() == word.toLowerCase() )) { 
-                  this.itemsFounded.push({"title":item.title, "area": item.area, "id": item.id }); 
+                  this.itemsFounded.push({"title":item.title, "area": item.area, "id": item.id });
+                  console.log($('#searchBarBox').position());
+                  this.searchResutPosition = $('#searchBarBox').position();
                   item.active = true;
                   this.$parent.noResults = false;
                   return true;
@@ -119,10 +122,10 @@
       }
     },
     created: function() {
-        window.addEventListener('scroll', this.handleScroll);
+      window.addEventListener('scroll', this.handleScroll);
     },
     destroyed: function() {
-        window.removeEventListener('scroll', this.handleScroll);
+      window.removeEventListener('scroll', this.handleScroll);
     },
     watch: {
       '$route.params.area': function (area) {
@@ -203,15 +206,15 @@
     position: relative;
     float: left;
   }
-  .SearchBar{
+  .SearchBar-input {
     border: none;
     border-bottom: 1px solid #BDBDBA;
     color: #BDBDBA;
     border-radius: 0;
     outline: none;
     height: 100%;
-    margin: 0px 0 0 0;
-    padding-left: 30px;
+    margin: 0px;
+    padding-left: 10px;
     font-size: 14px;
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -222,7 +225,7 @@
     width: 100%;
     box-sizing: border-box;
   }
-  .searchBarIcon, .searchBarIconClose{
+  .searchBar-icon {
     display: flex;
     align-self: flex-end;
     cursor: pointer;
@@ -230,33 +233,27 @@
     border-bottom: 1px solid #BDBDBA;
     color: #BDBDBA;
   }
-  .SearchBar::placeholder {
+  .SearchBar-input::placeholder {
     color: #BDBDBA;
     font-size: 12px;
   }
-  .SearchBar:focus {
+  .SearchBar-input:focus {
     color: #121212; 
     border-bottom: 1px solid #121212;
   }
-  .SearchBar:focus + .searchBarIcon{ 
-    color: #121212;
-    border-bottom: 1px solid #121212;
-  }
-  .SearchBar:focus ~ .searchBarIconClose{ 
+  .SearchBar-input:focus + .searchBar-icon{ 
     color: #121212;
     border-bottom: 1px solid #121212;
   }
   .search-result-box{
     position: absolute;
-    top: 35px;
-    right: 0px;
-    width: 100%;
     z-index: 999;
+    width: 300px;
     border: solid 1px #999999;
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
   }
-  .SearchBar:focus ~ .search-result-box{ 
+  .SearchBar-input:focus ~ .search-result-box{ 
     opacity: 1;
     transition: opacity 0.2s ease-in-out;
   }
